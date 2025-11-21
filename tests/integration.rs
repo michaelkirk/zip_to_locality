@@ -81,19 +81,19 @@ fn test_known_zip_codes() {
     let db = ZipCodeDb::from_file("zip_data/zipcodes.bin").unwrap();
 
     // Test San Francisco ZIP code
-    let (lat, lon) = db.zip_to_centroid("94102").unwrap();
-    assert!((lat - 37.78).abs() < 0.1);
-    assert!((lon - (-122.42)).abs() < 0.1);
+    let point = db.zip_to_centroid("94102").unwrap();
+    assert!((point.y() - 37.78).abs() < 0.1);
+    assert!((point.x() - (-122.42)).abs() < 0.1);
 
     // Test New York City ZIP code
-    let (lat, lon) = db.zip_to_centroid("10001").unwrap();
-    assert!((lat - 40.75).abs() < 0.1);
-    assert!((lon - (-73.99)).abs() < 0.1);
+    let point = db.zip_to_centroid("10001").unwrap();
+    assert!((point.y() - 40.75).abs() < 0.1);
+    assert!((point.x() - (-73.99)).abs() < 0.1);
 
     // Test Beverly Hills ZIP code
-    let (lat, lon) = db.zip_to_centroid("90210").unwrap();
-    assert!((lat - 34.10).abs() < 0.1);
-    assert!((lon - (-118.41)).abs() < 0.1);
+    let point = db.zip_to_centroid("90210").unwrap();
+    assert!((point.y() - 34.10).abs() < 0.1);
+    assert!((point.x() - (-118.41)).abs() < 0.1);
 }
 
 // This test will only work once we have actual data loaded
