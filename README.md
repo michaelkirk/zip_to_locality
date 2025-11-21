@@ -8,7 +8,7 @@ A Rust library for converting between US ZIP codes and geographic coordinates (l
 
 Any "ZIP code boundary" is a reverse-engineered approximation.
 
-### What This Library Uses
+### Source Data
 
 This library uses **ZIP Code Tabulation Areas (ZCTAs)** from the US Census Bureau, which are approximate areal representations created by aggregating Census blocks. ZCTAs are the best publicly available approximation, but they are still approximations.
 
@@ -68,6 +68,17 @@ $ ./target/release/latlon2zip -- 37.7793 -122.4193
 $ ./target/release/latlon2zip -- 40.7589 -73.9851
 10036
 ```
+
+## Performance
+
+The queries take about 500ms for me, which is slow.
+The lookup itself is quick, but it loads the entire spatial database into memory every launch.
+
+Some more performant alternatives if necessary:
+
+1. Batch input to amortize cost of db load (probably easiest to write)
+2. Run database in long running server, and query it.
+3. Use a db format suitable for paging (e.g. sqlite + spatial) (probably easiest to use)
 
 ## License
 
