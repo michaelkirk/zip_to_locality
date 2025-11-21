@@ -36,5 +36,7 @@ path = "bin/build_zip_db.rs"
 required-features = ["build-db"]
 
 [patch.crates-io]
-geo = { path = "../geo/geo" }
-geo-types = { path = "../geo/geo-types" }
+# geo = { path = "../geo/geo" }
+# geo-types = { path = "../geo/geo-types" }
+geo = { git = "https://github.com/georust/geo", branch = "mkirk/serialize-aabb-coord" }
+geo-types = { git = "https://github.com/georust/geo", branch = "mkirk/serialize-aabb-coord" }
