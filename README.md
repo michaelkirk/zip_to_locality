@@ -29,13 +29,11 @@ https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file
 ## Build the Database
 
 ```bash
-# Build the database tools
-cargo build --release --features build-db
-
 # Download and extract Census data (downloads to ./zip_data/)
-./target/release/download-zip-data
+./download-zip-data.sh
 
-# Process the shapefile into a binary database (outputs to ./zipcodes.bin)
+# Build the database from the downloaded Census data (outputs to ./zipcodes.bin)
+cargo build --release --features build-db
 ./target/release/build-zip-db --input zip_data/tl_2020_us_zcta520.shp
 ```
 

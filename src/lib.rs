@@ -37,7 +37,7 @@ impl rstar::PointDistance for ZipShape {
 /// Database for ZIP code lookups
 pub struct ZipCodeDb {
     /// HashMap for ZIP -> centroid lookups (O(1))
-    zip_to_coords: HashMap<String, (f64, f64)>,
+    zip_to_coords: HashMap<String, geo::Point>,
     /// R-tree for spatial polygon queries (O(log n))
     rtree: RTree<ZipShape>,
 }
@@ -62,7 +62,7 @@ impl ZipCodeDb {
             .map_err(|e| ZipCodeError::DataLoadError(format!("Failed to read file: {}", e)))?;
 
         let config = bincode::config::standard();
-        let (polygons, zip_to_coords): (Vec<ZipShape>, HashMap<String, (f64, f64)>) =
+        let (polygons, zip_to_coords): (Vec<ZipShape>, HashMap<String, geo::Point>) =
             bincode::serde::decode_from_slice(&data, config)
                 .map_err(|e| ZipCodeError::DataLoadError(format!("Failed to deserialize: {}", e)))?
                 .0;
@@ -77,7 +77,7 @@ impl ZipCodeDb {
 
     /// Get centroid coordinates for a ZIP code
     /// Returns (latitude, longitude)
-    pub fn zip_to_centroid(&self, zip: &str) -> Result<(f64, f64), ZipCodeError> {
+    pub fn zip_to_centroid(&self, zip: &str) -> Result<geo::Point, ZipCodeError> {
         // Validate ZIP code format (5 digits)
         if !zip.chars().all(|c| c.is_ascii_digit()) || zip.len() != 5 {
             return Err(ZipCodeError::InvalidZipFormat(zip.to_string()));

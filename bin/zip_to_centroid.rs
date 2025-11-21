@@ -31,7 +31,7 @@ fn main() {
     };
 
     match db.zip_to_centroid(&args.zipcode) {
-        Ok((lat, lon)) => println!("{} {}", lat, lon),
+        Ok(point) => println!("{} {}", point.y(), point.x()),
         Err(e) => {
             eprintln!("Error: {}", e);
             std::process::exit(1);
