@@ -1,0 +1,23 @@
+# Rust
+/target/
+Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files (too large for git)
+/zip_data/
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.bin
+*.zip
+
+# OS
+.DS_Store

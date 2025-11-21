@@ -1,0 +1,48 @@
+[package]
+name = "zipdip"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Spatial indexing with R-tree
+rstar = "0.12.2"
+# Serialization
+serde = { version = "1.0.228", features = ["derive"] }
+bincode = { version = "2.0.1", features = ["serde"] }
+# Error handling
+thiserror = "2.0.17"
+# CLI argument parsing
+clap = { version = "4.5.52", features = ["derive"] }
+# For data processing tool
+geo = { version = "0.31.0", features = ["serde"] }
+shapefile = { version = "0.7.0", features = ["geo-types"], optional = true }
+anyhow = { version = "1.0.100", optional = true }
+# For data download
+reqwest = { version = "0.12.24", features = ["blocking"], optional = true }
+zip = { version = "6.0.0", optional = true }
+
+[features]
+# Feature for building the database from Census data
+build-db = ["shapefile", "reqwest", "zip", "anyhow"]
+
+[[bin]]
+name = "zip2centroid"
+path = "bin/zip_to_centroid.rs"
+
+[[bin]]
+name = "latlon2zip"
+path = "bin/latlon_to_zip.rs"
+
+[[bin]]
+name = "build-zip-db"
+path = "bin/build_zip_db.rs"
+required-features = ["build-db"]
+
+[[bin]]
+name = "download-zip-data"
+path = "bin/download_zip_data.rs"
+required-features = ["build-db"]
+
+[patch.crates-io]
+geo = { path = "../geo/geo" }
+geo-types = { path = "../geo/geo-types" }
